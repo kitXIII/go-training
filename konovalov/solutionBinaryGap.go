@@ -12,31 +12,35 @@ func SolutionBinaryGap(number int) int {
 
 	num := abs(number)
 
+	iter := getIterator()
 	max := 0
-	current := 0
 
 	for i := 0; i < 63; i++ {
-		max, current = handleLastBit(num&1, max, current)
+		max = iter(num & 1)
 		num = num >> 1
 	}
 
-	if max > current {
-		return max
-	}
-
-	return current
+	return max
 }
 
-func handleLastBit(lastBit int, max int, current int) (int, int) {
-	if lastBit == 0 {
-		return max, current + 1
-	}
+func getIterator() func(int) int {
+	max, current := 0, 0
 
-	if max > current {
-		return max, 0
-	}
+	return func(lastBit int) int {
+		if lastBit == 0 {
+			current++
+		} else if max > current {
+			current = 0
+		} else {
+			max, current = current, 0
+		}
 
-	return current, 0
+		if max > current {
+			return max
+		}
+
+		return current
+	}
 }
 
 func abs(num int) int {
