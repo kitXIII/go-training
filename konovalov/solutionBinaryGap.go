@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-// SolutionBinaryGap calculates the maximum number of units in binary representation
+// SolutionBinaryGap calculates the maximum number of zeros in binary representation
 func SolutionBinaryGap(number int) int {
 	if number == math.MinInt64 {
 		return 63
