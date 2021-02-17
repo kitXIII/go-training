@@ -28,12 +28,12 @@ var rotateTests = []rotateTestPairs{
 }
 
 func TestSolutionRotate(t *testing.T) {
-	for _, pairs := range rotateTests {
-		result := SolutionRotate(pairs.values.array, pairs.values.steps)
-		if !IsEqualSlicesOfInt(result, pairs.expected) {
+	for _, pair := range rotateTests {
+		result := SolutionRotate(pair.values.array, pair.values.steps)
+		if !IsEqualSlicesOfInt(result, pair.expected) {
 			t.Error(
-				"For", pairs.values,
-				"expected", pairs.expected,
+				"For", pair.values,
+				"expected", pair.expected,
 				"got", result,
 			)
 		}

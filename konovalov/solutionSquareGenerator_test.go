@@ -21,12 +21,12 @@ var squareTests = []squaresTestPairs{
 }
 
 func TestSolutionSquireGenerator(t *testing.T) {
-	for _, pairs := range squareTests {
-		result := SolutionSquareGenerator(pairs.values.start, pairs.values.count)
-		if !IsEqualSlicesOfInt(result, pairs.expected) {
+	for _, pair := range squareTests {
+		result := SolutionSquareGenerator(pair.values.start, pair.values.count)
+		if !IsEqualSlicesOfInt(result, pair.expected) {
 			t.Error(
-				"For", pairs.values,
-				"expected", pairs.expected,
+				"For", pair.values,
+				"expected", pair.expected,
 				"got", result,
 			)
 		}
