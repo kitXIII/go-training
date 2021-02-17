@@ -12,10 +12,15 @@ func SolutionBinaryGap(number int) int {
 
 	num := abs(number)
 
+	steps := 64
+	if number < 0 {
+		steps = 63
+	}
+
 	iter := getIterator()
 	max := 0
 
-	for i := 0; i < 63; i++ {
+	for i := 0; i < steps; i++ {
 		max = iter(num & 1)
 		num = num >> 1
 	}
