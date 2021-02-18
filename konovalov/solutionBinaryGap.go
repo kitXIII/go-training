@@ -10,12 +10,12 @@ func SolutionBinaryGap(number int) int {
 		return 63
 	}
 
-	num := abs(number)
-
 	steps := 64
 	if number < 0 {
 		steps = 63
 	}
+
+	num := abs(number)
 
 	iter := getIterator()
 	max := 0
@@ -28,23 +28,27 @@ func SolutionBinaryGap(number int) int {
 	return max
 }
 
+// getIterator returns an iterator, that takes 0 or 1 integer number and returns maximum number of continued 0 on each iteration
 func getIterator() func(int) int {
 	max, current := 0, 0
 
-	return func(lastBit int) int {
-		if lastBit == 0 {
+	return func(nextBitEqualValue int) int {
+		if nextBitEqualValue == 0 {
 			current++
-		} else if max > current {
-			current = 0
-		} else {
-			max, current = current, 0
-		}
 
-		if max > current {
+			if max < current {
+				return current
+			}
+
 			return max
 		}
 
-		return current
+		if max < current {
+			max = current
+		}
+
+		current = 0
+		return max
 	}
 }
 
