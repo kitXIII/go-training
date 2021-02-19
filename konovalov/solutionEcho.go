@@ -15,36 +15,41 @@ func RunEchoServer() {
 func myEchoHandler(w http.ResponseWriter, r *http.Request) {
 	var err error
 	var body []byte
-	var isNotPostMethodError NotPostMethodErrorType
+
+	isNotPostMethodError := CustomError{message: "Expected POST method", status: 404}
+	serverError := CustomError{message: "Internal server error", status: 500}
 
 	if r.Method != "POST" {
-		handleError(w, isNotPostMethodError)
+		responseError(w, isNotPostMethodError)
 		return
 	}
 
 	body, err = ioutil.ReadAll(r.Body)
 
 	if err != nil {
-		handleError(w, err)
+		responseError(w, serverError)
 		return
 	}
 
 	_, err = w.Write(body)
 
 	if err != nil {
-		handleError(w, err)
+		responseError(w, serverError)
 		return
 	}
 }
 
-// Common error handling
-func handleError(w http.ResponseWriter, err error) {
-	http.Error(w, err.Error(), 500)
+// CustomError implements error interface, uses custom message
+type CustomError struct {
+	message string
+	status  int
 }
 
-// NotPostMethodErrorType implements error interface, but uses custom message
-type NotPostMethodErrorType struct{}
+func (e CustomError) Error() string {
+	return e.message
+}
 
-func (e NotPostMethodErrorType) Error() string {
-	return "Expected POST method"
+// Common error handling
+func responseError(w http.ResponseWriter, err CustomError) {
+	http.Error(w, err.Error(), err.status)
 }
