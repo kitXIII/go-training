@@ -2,13 +2,14 @@ package konovalov
 
 import (
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
 // RunEchoServer starts the echo server
 func RunEchoServer() {
 	http.HandleFunc("/", myEchoHandler)
-	http.ListenAndServe(":8080", nil)
+	log.Print(http.ListenAndServe(":8080", nil))
 }
 
 // myEchoHandler handle http request
@@ -21,6 +22,7 @@ func myEchoHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method != "POST" {
 		responseError(w, isNotPostMethodError)
+		log.Print(isNotPostMethodError)
 		return
 	}
 
@@ -28,6 +30,7 @@ func myEchoHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		responseError(w, serverError)
+		log.Print(err)
 		return
 	}
 
@@ -35,6 +38,7 @@ func myEchoHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		responseError(w, serverError)
+		log.Print(err)
 		return
 	}
 }
